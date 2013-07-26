@@ -22,21 +22,27 @@
 
 		        <!-- Main contents -->
 						<h1>Hanzify!</h1>
-						<p>by <a href="http://infusiastic.me">Demian ”Infusiastic“ Terentev</a></p>
+						<p>by <a href="http://infusiastic.me">Demian “Infusiastic” Terentev</a></p>
 						<h2>How to use</h2>
 						<p>This web service transliterates any given name into Chinese according to official standard. So far only Russian names are supported. The name can be supplied using the form on this page or directly in the URL (the result will be shown on separate page), e.g:</p>
-						<p><a href="/Мухосранск">Мухосранск</a></p>
+						<p><img src="img/mukhosransk.png" alt="Mukhosransk coat-of-arms" title="Mukhosransk coat-of-arms"> <a href="/hanzify?q=Мухосранск">http://hanzify.infusiastic.me/hanzify?q=Мухосранск</a></p></p>
 						
 						<h2>Как пользоваться</h2>
 						<p>Данный веб-сервис транслитерирует любое заданное название или имя по-китайски в соответствии с официальным стандартом. В настоящее время поддерживаются только русские названия и имена. Название или имя можно задать как с помощью формы на данной странице, так и напрямую в адресе (результат покажется на отдельной странице), например:</p>
-						<p><a href="/Мухосранск">Мухосранск</a></p>
+						<p><img src="img/mukhosransk.png" alt="герб Мухосранска" title="герб Мухосранска"> <a href="/hanzify?q=Мухосранск">http://hanzify.infusiastic.me/hanzify?q=Мухосранск</a></p>
 						
 						<div>
-							<p><input id="text_input" type="text" placeholder="(input here)" value=""></p>
-							<p><input id="transliterate_cmd" type="submit" value="Transliterate / Транслитерировать"></p>
+							<form id="qform" action="/hanzify" method="get">
+								<p><input id="q" type="text" name="q" placeholder="(input here)" value=""></p>
+								<p><input id="submit" type="submit" name="submit" value="Transliterate / Транслитерировать"></p>
+							</form>
 						</div>
 						
 						<div id="result"><span class="elucidation">(output here)</span></div>
+						<h2>Feedback</h2>
+						<p>The service is currently in beta. Please don’t hesitate to report bugs and give feedback to <a href="http://infusiastic.me">the author</a>. Alternatively, you can visit the <a href="https://github.com/infusiastic/hanzifyapp">official GitHub page</a>.</p>
+						<h2>Обратная связь</h2>
+						<p>Сервис в настоящее время находится в стадии бета. Пожалуйста, незамедлительно сообщайте об ошибках и делитесь своими соображениями с <a href="http://infusiastic.me">автором</a>. Или можете посетить <a href="https://github.com/infusiastic/hanzifyapp">официальную страницу сервиса на GitHub</a>.</p>
 						<!-- Google Analytics -->
 		        <script>
 		            var _gaq=[['_setAccount','UA-42682813-1'],['_trackPageview']];
