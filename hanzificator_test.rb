@@ -1,6 +1,7 @@
+# encoding: utf-8
 # Hanzify Web App
 #
-# Rake tasks for development
+# Hanzificator Module Test
 #
 # Write any name in Chinese according to the official transliteration rules.
 #
@@ -26,12 +27,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-desc "Upload app files to the hosting server"
-task :sync do
-  system 'rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress app/* infusias@infusiastic.me:/home/infusias/apps/hanzify/'
-end
+require 'minitest/autorun'
+# require 'minitest/colorize'
+require './app/hanzificator'
 
-desc "Run the tests"
-task :test do
-  require './hanzificator_test'
+describe Hanzificator do
+  it "must syllabize open syllables" do
+    Hanzificator.new.syllabize("яма").must_equal ['я','ма']
+  end
+  
+  it "must syllabize consecutive open syllables" do
+    Hanzificator.new.syllabize("молоко").must_equal ['мо','ло','ко']
+  end
+  
+  it "must not syllabize closed syllables" do
+    Hanzificator.new.syllabize("тарантас").must_equal ['та','рантас']
+  end
+  
+  it "must correctly hanzify names with open syllables" do
+    Hanzificator.new.hanzify("Афанасий").must_equal "阿法纳西"
+  end
 end

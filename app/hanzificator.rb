@@ -870,11 +870,14 @@ class Hanzificator
     keys = @common.keys.sort.reverse
     regex = /(#{keys.join('|')})/
     name = name.tr('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ','абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
-    raise UnsupportedCharactersException if /[^абвгдеёжзийклмнопрстуфхцчшщъыьэюя ]/ =~ name
-    scanner = StringScanner.new(name)
+    raise UnsupportedCharactersException if /[^абвгдеёжзийклмнопрстуфхцчшщъыьэюя]/ =~ name
     chinese = ''
-    until scanner.eos?
-      chinese << @common[scanner.scan(regex)] 
+    syllables = syllabize(name)
+    syllables.each do |syllable|
+      scanner = StringScanner.new(syllable)
+      until scanner.eos?
+        chinese << @common[scanner.scan(regex)] 
+      end
     end
     if @initial.has_key? chinese[0]
       chinese = chinese.sub(chinese[0], @initial[chinese[0]])
@@ -884,7 +887,19 @@ class Hanzificator
     end
     chinese
   end
+  
+  def syllabize(name)
+    # here we try to split the string into syllables
+    # so far, the only meaningful split is BA|BA so that it does not get
+    # transliterated as BAB|A
+    open_syllables_re = /([аоуыэиеёюя])([^аоуыэиеёюя][аоуыэиеёюя])/
+    while open_syllables_re =~ name
+      name.sub!(open_syllables_re, '\1 \2')
+    end
+    name.split(' ') # return a list of syllables
+  end
 end
 
+# Gets risen if the string to hanzify contains unsupported characters
 class UnsupportedCharactersException < Exception
 end
