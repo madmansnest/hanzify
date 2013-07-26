@@ -34,7 +34,7 @@ class HanzifyApp < Sinatra::Base
   get '/hanzify' do
     redirect_to '/' if params[:q].nil? || params[:q]==''
     hanzificator = Hanzificator.new
-    words = params[:q].split(' ')
+    words = params[:q].split(/[ -]/) # treat hyphens as spaces
     begin
       male = words.map {|word| hanzificator.hanzify(word)}.join('・')
       female = words.map {|word| hanzificator.hanzify(word, female=true)}.join('・')
