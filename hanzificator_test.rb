@@ -47,4 +47,16 @@ describe Hanzificator do
   it "must correctly hanzify names with open syllables" do
     Hanzificator.new.hanzify("Афанасий").must_equal "阿法纳西"
   end
+  
+  it "must correctly hanzify male names" do
+    Hanzificator.new.hanzify("Ширяев", :male).must_equal "希里亚耶夫"
+  end
+  
+  it "must correctly hanzify female names" do
+    Hanzificator.new.hanzify("Ева", :female).must_equal "叶娃"
+  end
+  
+  it "must correctly hanzify place names" do
+    Hanzificator.new.hanzify("Сибай", :place).must_equal "锡拜"
+  end
 end

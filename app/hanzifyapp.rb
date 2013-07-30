@@ -36,13 +36,10 @@ class HanzifyApp < Sinatra::Base
     hanzificator = Hanzificator.new
     words = params[:q].split(/[ -]/) # treat hyphens as spaces
     begin
-      male = words.map {|word| hanzificator.hanzify(word)}.join('・')
-      female = words.map {|word| hanzificator.hanzify(word, female=true)}.join('・')
-      if male==female
-        return male
-      else
-        return %Q{<span class="elucidation">(男)</span> #{male}<br><span class="elucidation">(女)</span> #{female}}
-      end
+      mode = params[:mode].to_sym unless params[:mode].nil?
+      mode = :male unless [:female, :place].include? mode
+      result = words.map {|word| hanzificator.hanzify(word, mode)}.join('・')
+      return result
     rescue UnsupportedCharactersException
       return '<span class="elucidation">(unsupported characters in input string)</span>'
     end

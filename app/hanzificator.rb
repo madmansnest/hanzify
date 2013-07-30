@@ -857,16 +857,18 @@ class Hanzificator
     @initial = {
       '夫' => '弗',
       '耶' => '叶',
-      '尔' => '勒',
+      '尔' => '勒'
     }
-    @special = {
+    @place_initial = {
       '东' => '栋',
-      '江' => '姜',
       '西' => '锡',
+      '南' => '楠'
     }
+    @place_final = @place_initial.dup
+    @place_final['江'] = '姜'
   end
   
-  def hanzify(name, female=false)
+  def hanzify(name, mode=:male)
     keys = @common.keys.sort.reverse
     regex = /(#{keys.join('|')})/
     name = name.tr('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ','абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
@@ -882,8 +884,12 @@ class Hanzificator
     if @initial.has_key? chinese[0]
       chinese = chinese.sub(chinese[0], @initial[chinese[0]])
     end
-    if female
+    if mode==:female
       chinese = chinese.tr(@female.keys.join(''), @female.values.join(''))
+    end
+    if mode==:place
+      chinese = chinese.sub(chinese[0], @place_initial[chinese[0]]) if @place_initial.has_key? chinese[0]
+      chinese = chinese.sub(chinese[-1], @place_final[chinese[-1]]) if @place_final.has_key? chinese[-1]
     end
     chinese
   end
