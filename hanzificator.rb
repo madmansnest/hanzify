@@ -32,6 +32,13 @@ require 'strscan'
 class Hanzificator
   def initialize
     @common = {
+      "александр" => "亚历山大",
+      "александра" => "亚历山大拉",
+      "александро" => "亚历山大罗",
+      "николай" => "尼古拉",
+      "никола" => "尼古拉",
+      "пётр" => "彼得",
+      "петро" => "彼得罗",
       "а" => "阿",
       "ай" => "艾",
       "аи" => "艾",
@@ -902,6 +909,11 @@ class Hanzificator
     while open_syllables_re =~ name
       name.sub!(open_syllables_re, '\1 \2')
     end
+    # A tweak to process correctly the names containing ‘Alexander’
+    name.sub!('а лександро', 'александро')
+    name.sub!('а лександра', 'александра')
+    name.sub!('а лександр', 'александр')
+    
     name.split(' ') # return a list of syllables
   end
 end

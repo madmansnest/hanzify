@@ -1,10 +1,7 @@
+# encoding: utf-8
 # Hanzify Web App
 #
-# Rake tasks for development
-#
-# Write any name in Chinese according to the official transliteration rules.
-#
-# So far, only Russian names are supported.
+# Main App
 # 
 # Copyright © 2012-2013 Demian Terentev <demian@infusiastic.me>
 # 
@@ -26,12 +23,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-desc "Upload app files to the hosting server"
-task :sync do
-  system 'rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress app/* infusias@infusiastic.me:/home/infusias/apps/hanzify/'
-end
+require 'sinatra/base'
+require './hanzificator'
 
-desc "Run the tests"
-task :test do
-  require './hanzificator_test'
+class HanzifyApp < Sinatra::Base
+  get '/' do
+    send_file File.expand_path('index.html', settings.public_folder)
+  end
+  
+  get '/hanzify' do
+    redirect_to '/' if params[:q].nil? || params[:q]==''
+    hanzificator = Hanzificator.new
+    words = params[:q].split(/[ -]/) # treat hyphens as spaces
+    begin
+      mode = params[:mode].to_sym unless params[:mode].nil?
+      mode = :male unless [:female, :place].include? mode
+      result = words.map {|word| hanzificator.hanzify(word, mode)}.join('·')
+      return result
+    rescue UnsupportedCharactersException
+      return '<span class="elucidation">(unsupported characters in input string)</span>'
+    end
+  end
+  
+  # start the server if ruby file executed directly
+  run! if app_file == $0
 end

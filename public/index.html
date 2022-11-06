@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+				<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Hanzify!</title>
+        <meta name="description" content="A web service for transliterating names into Chinese.">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+				<script src="js/modernizr-2.6.2.min.js"></script>
+				<script src="js/jquery-1.10.2.min.js"></script>
+				<script src="js/main.js"></script>
+		    <body>
+		        <!--[if lt IE 7]>
+		            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		        <![endif]-->
+
+		        <!-- Main contents -->
+						<h1>Hanzify!</h1>
+						<div>
+							<form id="qform" action="/hanzify" method="get">
+								<p><input id="q" type="text" name="q" placeholder="(input here)" value=""><input type="radio" id="mode_male" name="mode" value="male"><label for="mode_male">male</label><input type="radio" id="mode_female" name="mode" value="female"><label for="mode_female">female</label><input type="radio" id="mode_place" name="mode" value="place"><label for="mode_place">place</label><br></p>
+								<p><input id="submit" type="submit" value="Transliterate / Транслитерировать"></p>
+							</form>
+						</div>
+						
+						<div id="result"><span class="elucidation">(output here)</span></div>
+		    </body>
+		</html>
